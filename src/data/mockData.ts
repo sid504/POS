@@ -1,5 +1,134 @@
 import { Product, Transaction, InventoryMovement, Supplier, StockReceiving, Customer, Discount, User, Shift, Expense } from '../types';
 
+export const mockVariantTypes = [
+  {
+    id: '1',
+    name: 'color',
+    displayName: 'Color',
+    type: 'color' as const,
+    isRequired: false,
+    allowMultiple: false,
+    sortOrder: 1,
+    options: [
+      { id: '1', value: 'red', displayValue: 'Red', colorCode: '#FF0000', priceModifier: 0, isDefault: true },
+      { id: '2', value: 'blue', displayValue: 'Blue', colorCode: '#0000FF', priceModifier: 0 },
+      { id: '3', value: 'green', displayValue: 'Green', colorCode: '#00FF00', priceModifier: 0 },
+      { id: '4', value: 'black', displayValue: 'Black', colorCode: '#000000', priceModifier: 0 },
+      { id: '5', value: 'white', displayValue: 'White', colorCode: '#FFFFFF', priceModifier: 0 },
+      { id: '6', value: 'yellow', displayValue: 'Yellow', colorCode: '#FFFF00', priceModifier: 0 },
+      { id: '7', value: 'purple', displayValue: 'Purple', colorCode: '#800080', priceModifier: 0 },
+      { id: '8', value: 'orange', displayValue: 'Orange', colorCode: '#FFA500', priceModifier: 0 },
+      { id: '9', value: 'pink', displayValue: 'Pink', colorCode: '#FFC0CB', priceModifier: 0 },
+      { id: '10', value: 'brown', displayValue: 'Brown', colorCode: '#A52A2A', priceModifier: 0 }
+    ]
+  },
+  {
+    id: '2',
+    name: 'size',
+    displayName: 'Size',
+    type: 'size' as const,
+    isRequired: false,
+    allowMultiple: false,
+    sortOrder: 2,
+    options: [
+      { id: '11', value: 'xs', displayValue: 'Extra Small (XS)', priceModifier: -2, description: 'Extra Small size' },
+      { id: '12', value: 's', displayValue: 'Small (S)', priceModifier: 0, isDefault: true },
+      { id: '13', value: 'm', displayValue: 'Medium (M)', priceModifier: 0 },
+      { id: '14', value: 'l', displayValue: 'Large (L)', priceModifier: 2 },
+      { id: '15', value: 'xl', displayValue: 'Extra Large (XL)', priceModifier: 4 },
+      { id: '16', value: 'xxl', displayValue: '2X Large (XXL)', priceModifier: 6 },
+      { id: '17', value: 'xxxl', displayValue: '3X Large (XXXL)', priceModifier: 8 }
+    ]
+  },
+  {
+    id: '3',
+    name: 'material',
+    displayName: 'Material',
+    type: 'material' as const,
+    isRequired: false,
+    allowMultiple: false,
+    sortOrder: 3,
+    options: [
+      { id: '18', value: 'cotton', displayValue: 'Cotton', priceModifier: 0, isDefault: true },
+      { id: '19', value: 'polyester', displayValue: 'Polyester', priceModifier: -1 },
+      { id: '20', value: 'wool', displayValue: 'Wool', priceModifier: 5 },
+      { id: '21', value: 'silk', displayValue: 'Silk', priceModifier: 10 },
+      { id: '22', value: 'leather', displayValue: 'Leather', priceModifier: 15 },
+      { id: '23', value: 'denim', displayValue: 'Denim', priceModifier: 3 },
+      { id: '24', value: 'linen', displayValue: 'Linen', priceModifier: 4 }
+    ]
+  },
+  {
+    id: '4',
+    name: 'weight',
+    displayName: 'Weight',
+    type: 'weight' as const,
+    isRequired: false,
+    allowMultiple: false,
+    sortOrder: 4,
+    options: [
+      { id: '25', value: '100g', displayValue: '100g', priceModifier: 0, isDefault: true },
+      { id: '26', value: '250g', displayValue: '250g', priceModifier: 2 },
+      { id: '27', value: '500g', displayValue: '500g', priceModifier: 4 },
+      { id: '28', value: '1kg', displayValue: '1kg', priceModifier: 7 },
+      { id: '29', value: '2kg', displayValue: '2kg', priceModifier: 12 },
+      { id: '30', value: '5kg', displayValue: '5kg', priceModifier: 25 }
+    ]
+  },
+  {
+    id: '5',
+    name: 'volume',
+    displayName: 'Volume',
+    type: 'volume' as const,
+    isRequired: false,
+    allowMultiple: false,
+    sortOrder: 5,
+    options: [
+      { id: '31', value: '100ml', displayValue: '100ml', priceModifier: 0, isDefault: true },
+      { id: '32', value: '250ml', displayValue: '250ml', priceModifier: 1 },
+      { id: '33', value: '500ml', displayValue: '500ml', priceModifier: 2 },
+      { id: '34', value: '1l', displayValue: '1 Liter', priceModifier: 3 },
+      { id: '35', value: '2l', displayValue: '2 Liters', priceModifier: 5 },
+      { id: '36', value: '5l', displayValue: '5 Liters', priceModifier: 10 }
+    ]
+  },
+  {
+    id: '6',
+    name: 'bundle',
+    displayName: 'Bundle Pack',
+    type: 'bundle' as const,
+    isRequired: false,
+    allowMultiple: false,
+    sortOrder: 6,
+    options: [
+      { id: '37', value: 'single', displayValue: 'Single Item', priceModifier: 0, isDefault: true },
+      { id: '38', value: 'pack2', displayValue: '2-Pack', priceModifier: 1.8, description: '10% discount on 2 items' },
+      { id: '39', value: 'pack3', displayValue: '3-Pack', priceModifier: 2.5, description: '15% discount on 3 items' },
+      { id: '40', value: 'pack6', displayValue: '6-Pack', priceModifier: 4.5, description: '25% discount on 6 items' },
+      { id: '41', value: 'pack12', displayValue: '12-Pack', priceModifier: 8, description: '33% discount on 12 items' },
+      { id: '42', value: 'bulk24', displayValue: '24-Pack (Bulk)', priceModifier: 14, description: '42% discount on 24 items' }
+    ]
+  },
+  {
+    id: '7',
+    name: 'style',
+    displayName: 'Style',
+    type: 'style' as const,
+    isRequired: false,
+    allowMultiple: false,
+    sortOrder: 7,
+    options: [
+      { id: '43', value: 'classic', displayValue: 'Classic', priceModifier: 0, isDefault: true },
+      { id: '44', value: 'modern', displayValue: 'Modern', priceModifier: 2 },
+      { id: '45', value: 'vintage', displayValue: 'Vintage', priceModifier: 3 },
+      { id: '46', value: 'premium', displayValue: 'Premium', priceModifier: 8 },
+      { id: '47', value: 'luxury', displayValue: 'Luxury', priceModifier: 15 },
+      { id: '48', value: 'sport', displayValue: 'Sport', priceModifier: 1 },
+      { id: '49', value: 'casual', displayValue: 'Casual', priceModifier: 0 }
+    ]
+  }
+];
+
 export const mockProducts: Product[] = [
   {
     id: '1',
@@ -12,7 +141,26 @@ export const mockProducts: Product[] = [
     stock: 50,
     minStock: 10,
     description: 'Fresh organic bananas',
-    supplier: 'Fresh Farms Co.'
+    supplier: 'Fresh Farms Co.',
+    variants: [
+      {
+        id: 'v1',
+        name: 'Small Bunch',
+        type: 'bundle',
+        value: 'single',
+        priceModifier: 0,
+        stock: 30,
+        isDefault: true
+      },
+      {
+        id: 'v2',
+        name: 'Large Bunch',
+        type: 'bundle',
+        value: 'pack2',
+        priceModifier: 1.5,
+        stock: 20
+      }
+    ]
   },
   {
     id: '2',
@@ -25,7 +173,74 @@ export const mockProducts: Product[] = [
     stock: 25,
     minStock: 5,
     description: 'Fresh whole milk 1 gallon',
-    supplier: 'Dairy Direct'
+    supplier: 'Dairy Direct',
+    variants: [
+      {
+        id: 'v3',
+        name: '1 Liter',
+        type: 'volume',
+        value: '1l',
+        priceModifier: 0,
+        stock: 15,
+        isDefault: true
+      },
+      {
+        id: 'v4',
+        name: '2 Liters',
+        type: 'volume',
+        value: '2l',
+        priceModifier: 1.8,
+        stock: 10
+      }
+    ]
+  },
+  {
+    id: '9',
+    name: 'Cotton T-Shirt',
+    price: 19.99,
+    costPrice: 12.00,
+    category: 'Clothing',
+    image: 'https://images.pexels.com/photos/1020585/pexels-photo-1020585.jpeg?auto=compress&cs=tinysrgb&w=300',
+    barcode: '1234567890131',
+    stock: 100,
+    minStock: 20,
+    description: 'Comfortable cotton t-shirt',
+    supplier: 'Clothing Co.',
+    variants: [
+      {
+        id: 'v5',
+        name: 'Red Small',
+        type: 'color',
+        value: 'red',
+        priceModifier: 0,
+        stock: 10,
+        isDefault: true
+      },
+      {
+        id: 'v6',
+        name: 'Red Medium',
+        type: 'size',
+        value: 'm',
+        priceModifier: 0,
+        stock: 15
+      },
+      {
+        id: 'v7',
+        name: 'Blue Large',
+        type: 'color',
+        value: 'blue',
+        priceModifier: 0,
+        stock: 12
+      },
+      {
+        id: 'v8',
+        name: 'Black XL',
+        type: 'size',
+        value: 'xl',
+        priceModifier: 2,
+        stock: 8
+      }
+    ]
   },
   {
     id: '3',

@@ -22,9 +22,35 @@ export interface Product {
 export interface ProductVariant {
   id: string;
   name: string;
-  value: string;
+  type: string; // color, size, material, etc.
+  value: string; // actual value like "Red", "Large", etc.
   priceModifier: number;
   stock: number;
+  sku?: string;
+  image?: string;
+  isDefault?: boolean;
+}
+
+export interface VariantType {
+  id: string;
+  name: string;
+  displayName: string;
+  type: 'color' | 'size' | 'material' | 'style' | 'weight' | 'volume' | 'bundle' | 'custom';
+  options: VariantOption[];
+  isRequired: boolean;
+  allowMultiple: boolean;
+  sortOrder: number;
+}
+
+export interface VariantOption {
+  id: string;
+  value: string;
+  displayValue: string;
+  colorCode?: string; // for color variants
+  priceModifier: number;
+  isDefault?: boolean;
+  image?: string;
+  description?: string;
 }
 
 export interface SeasonalPricing {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Package } from 'lucide-react';
+import { Plus, Package, Palette } from 'lucide-react';
 import { Product } from '../types';
 
 interface ProductCardProps {
@@ -39,6 +39,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
               ${product.price.toFixed(2)}
             </span>
             <span className="text-xs text-gray-500">{product.category}</span>
+            {product.variants && product.variants.length > 0 && (
+              <div className="flex items-center space-x-1 mt-1">
+                <Palette className="w-3 h-3 text-purple-500" />
+                <span className="text-xs text-purple-600">{product.variants.length} variants</span>
+              </div>
+            )}
           </div>
           
           <button

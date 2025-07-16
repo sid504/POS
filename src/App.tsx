@@ -16,6 +16,8 @@ import DiscountManagement from './components/DiscountManagement';
 import ReportsAnalytics from './components/ReportsAnalytics';
 import ShiftManagement from './components/ShiftManagement';
 import StoreSettings from './components/StoreSettings';
+import VariantTypeManagement from './components/VariantTypeManagement';
+import ProductManagement from './components/ProductManagement';
 import { Product, CartItem, Transaction, InventoryMovement, Customer, Discount, Shift, Expense, PaymentMethod } from './types';
 import { 
   mockProducts, 
@@ -26,6 +28,7 @@ import {
   mockDiscounts,
   mockShifts,
   mockExpenses,
+  mockVariantTypes,
   categories 
 } from './data/mockData';
 
@@ -39,6 +42,7 @@ function AppContent() {
   const [discounts, setDiscounts] = useState<Discount[]>(mockDiscounts);
   const [shifts, setShifts] = useState<Shift[]>(mockShifts);
   const [expenses, setExpenses] = useState<Expense[]>(mockExpenses);
+  const [variantTypes, setVariantTypes] = useState(mockVariantTypes);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [appliedDiscount, setAppliedDiscount] = useState<Discount | null>(null);
   
@@ -54,6 +58,8 @@ function AppContent() {
   const [showReports, setShowReports] = useState(false);
   const [showShifts, setShowShifts] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showVariantTypes, setShowVariantTypes] = useState(false);
+  const [showProductManagement, setShowProductManagement] = useState(false);
   
   const [currentTransaction, setCurrentTransaction] = useState<Transaction | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
@@ -433,6 +439,8 @@ function AppContent() {
         onViewReports={() => setShowReports(true)}
         onViewShifts={() => setShowShifts(true)}
         onViewSettings={() => setShowSettings(true)}
+        onViewVariantTypes={() => setShowVariantTypes(true)}
+        onViewProductManagement={() => setShowProductManagement(true)}
         userRole={user?.role || 'cashier'}
       />
       
@@ -551,6 +559,51 @@ function AppContent() {
       {showSettings && (
         <StoreSettings
           onClose={() => setShowSettings(false)}
+        />
+      )}
+
+      {showVariantTypes && (
+        <VariantTypeManagement
+          variantTypes={variantTypes}
+          onClose={() => setShowVariantTypes(false)}
+          onAddVariantType={(variantType) => {
+            const newVariantType = {
+              ...variantType,
+              id: `VT${String(variantTypes.length + 1).padStart(3, '0')}`
+            };
+            setVariantTypes(prev => [...prev, newVariantType]);
+          }}
+          onUpdateVariantType={(id, updates) => {
+            setVariantTypes(prev =>
+              prev.map(vt => vt.id === id ? { ...vt, ...updates } : vt)
+            );
+          }}
+          onDeleteVariantType={(id) => {
+            setVariantTypes(prev => prev.filter(vt => vt.id !== id));
+          }}
+        />
+      )}
+
+      {showProductManagement && (
+        <ProductManagement
+          products={products}
+          variantTypes={variantTypes}
+          onClose={() => setShowProductManagement(false)}
+          onAddProduct={(product) => {
+            const newProduct = {
+              ...product,
+              id: `PROD${String(products.length + 1).padStart(3, '0')}`
+            };
+            setProducts(prev => [...prev, newProduct]);
+          }}
+          onUpdateProduct={(id, updates) => {
+            setProducts(prev =>
+              prev.map(p => p.id === id ? { ...p, ...updates } : p)
+            );
+          }}
+          onDeleteProduct={(id) => {
+            setProducts(prev => prev.filter(p => p.id !== id));
+          }}
         />
       )}
     </div>
